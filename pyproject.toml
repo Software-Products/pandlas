@@ -5,8 +5,8 @@ description = "A powerful Python package that extends Pandas functionality to wo
 authors = ["Owen Foo <owen.foo@mclarenapplied.com>"]
 readme = "README.md"
 license = "MIT"
-repository = "https://github.com/owentmfoo/pandlas"
-documentation = "https://github.com/owentmfoo/pandlas/docs"
+repository = "https://github.com/Software-Products/pandlas"
+documentation = "https://github.com/Software-Products/pandlas/tree/main/docs"
 keywords = ["atlas", "pandas", "sqlrace", "data-analysis", "automotive"]
 classifiers = [
     "Development Status :: 4 - Beta",
