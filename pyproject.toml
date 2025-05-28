@@ -1,12 +1,23 @@
 [tool.poetry]
-name = "Pandlas"
-version = "0.2.2a4"
-description = "An example package demonstrating how to use the SQLRace API. This package is not maintained nor officially supported."
+name = "pandlas"
+version = "0.2.2"
+description = "A powerful Python package that extends Pandas functionality to work with ATLAS SQLRace API, providing seamless data analysis and manipulation capabilities."
 authors = ["Owen Foo <owen.foo@mclarenapplied.com>"]
 readme = "README.md"
+license = "MIT"
+repository = "https://github.com/owentmfoo/pandlas"
+documentation = "https://github.com/owentmfoo/pandlas/docs"
+keywords = ["atlas", "pandas", "sqlrace", "data-analysis", "automotive"]
 classifiers = [
-    "Private :: Do Not Upload",
-    "Development Status :: 7 - Inactive",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 [tool.poetry.dependencies]
@@ -38,7 +49,7 @@ PYTHONNET_CORECLR_RUNTIME_CONFIG="C:\\Program Files\\McLaren Applied Technologie
 
 [tool.pytest.ini_options]
 markers = [
-"atlaslicensed: requires ATLAS to be installed and licenced.",
+    "atlaslicensed: requires ATLAS to be installed and licenced.",
 ]
 
 [build-system]
