@@ -772,10 +772,25 @@ def _packet_fits_uint16(intervals_ns: np.ndarray) -> bool:
     return int(intervals_ns.max()) // gcd <= 65535
 
 
+def _quantise_intervals(intervals_ns: np.ndarray, resolution_ns: int) -> np.ndarray:
+    """Quantise intervals to a fixed resolution to avoid pathological GCDs.
+
+    When timestamps are derived from floating-point arithmetic (e.g.
+    ``60e9 / rpm``), the resulting nanosecond intervals can share no
+    common factor, giving a GCD of 1 and making every packet overflow
+    uint16.  Rounding to microsecond resolution (the default) restores
+    a healthy GCD while staying well within the precision of any real
+    sensor or crank trigger system.
+    """
+    quantised = (intervals_ns // resolution_ns) * resolution_ns
+    return np.maximum(quantised, resolution_ns)
+
+
 def split_into_packets(
     samples: np.ndarray,
     timestamps_ns: np.ndarray,
-    packet_size: int = 8000,
+    packet_size: int = 24000,
+    quantise_ns: int = 1000,
 ) -> list[dict]:
     """Split synchro data into sized packets that satisfy the uint16 constraint.
 
@@ -786,12 +801,24 @@ def split_into_packets(
     Args:
         samples: 1-D float64 sample array (length N).
         timestamps_ns: 1-D int64 timestamp array (length N).
-        packet_size: Maximum number of samples per packet.
+        packet_size: Maximum number of samples per packet (default 24 000,
+            yielding ~234 KB payloads for float64 data).  The SQL Race API
+            accepts payloads up to approximately 1 MB; above that, data is
+            silently discarded on flush.  Safe range: 8 000–100 000.
+        quantise_ns: Resolution in nanoseconds to quantise intervals to
+            before computing the GCD.  Default 1000 (1 µs).  Set to 1
+            to disable quantisation (not recommended for float-derived
+            timestamps).
 
     Returns:
         List of dicts, each with ``samples``, ``intervals_ns``, ``timestamp``.
     """
     intervals_ns = np.diff(timestamps_ns)
+
+    # Quantise intervals to avoid pathological GCD = 1 from float rounding
+    if quantise_ns > 1:
+        intervals_ns = _quantise_intervals(intervals_ns, quantise_ns)
+
     packets: list[dict] = []
     n = len(samples)
 
@@ -931,7 +958,7 @@ def add_synchro_data(
     display_format: str = "%5.2f",
     display_limits: tuple[float, float] | None = None,
     warning_limits: tuple[float, float] | None = None,
-    packet_size: int = 8000,
+    packet_size: int = 24000,
     show_progress_bar: bool = True,
 ) -> None:
     """Write variable-rate (synchro) data to an ATLAS session.

@@ -35,7 +35,7 @@ DataFrames and the SQLRace API through
 ## Installation
 
 ```bash
-pip install "git+https://github.com/owentmfoo/pandlas.git"
+pip install "git+https://github.com/Software-Products/pandlas.git"
 ```
 
 ## Quick Start
