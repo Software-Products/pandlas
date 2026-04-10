@@ -27,7 +27,7 @@ In short, **Pandlas is the engine** that performs the actual data ingestion into
 
 ## What This Script Adds
 
-The `parquet_to_atlas.py` script sits on top of Pandlas and adds **convenience, validation, and automation** around a few common tasks.
+The `Parquet_Atlas.py` script sits on top of Pandlas and adds **convenience, validation, and automation** around a few common tasks.
 
 ---
 
