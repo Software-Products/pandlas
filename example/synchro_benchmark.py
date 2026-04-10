@@ -49,14 +49,14 @@ SERVER = r"MCLA-525Q374\LOCAL"
 DATABASE = "SQLRACE02"
 
 # Test points — all written into one session, each as a separate parameter
-SAMPLE_COUNTS = [100_000, 1_000_000, 10_000_000]
+SAMPLE_COUNTS = [100_000, 1_000_000, 10_000_000]  # adjust as needed
 
 # Engine RPM profile
 RPM_IDLE = 800          # idle RPM
 RPM_MAX = 21_000        # peak RPM
 RPM_CYCLES = 5          # number of idle-max-idle sweeps in the session
 TEETH_PER_REV = 36      # crank trigger teeth per revolution (typ. 36-1 or 60-2)
-PACKET_SIZE = 8_000     # samples per synchro packet
+PACKET_SIZE = 16_000     # samples per synchro packet (optimal for throughput)
 # =================================================================
 
 
