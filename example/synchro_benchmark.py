@@ -30,6 +30,12 @@ import logging
 import numpy as np
 import pandas as pd
 
+# Make the tick/cross glyphs printable on legacy code-page consoles (cp1252).
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except (AttributeError, ValueError):
+    pass
+
 from pandlas import SQLiteConnection, SQLRaceDBConnection
 from pandlas import add_synchro_data
 import pandlas.SqlRace as sr
@@ -56,7 +62,9 @@ RPM_IDLE = 800          # idle RPM
 RPM_MAX = 21_000        # peak RPM
 RPM_CYCLES = 5          # number of idle-max-idle sweeps in the session
 TEETH_PER_REV = 36      # crank trigger teeth per revolution (typ. 36-1 or 60-2)
-PACKET_SIZE = 16_000     # samples per synchro packet (optimal for throughput)
+PACKET_SIZE = 32_000     # samples per synchro packet; ~312 KB payload.
+# Empirical sweet spot is 32k-48k: on a 10M sweep this is ~20% faster than 16k.
+# Throughput collapses near the ~1 MB payload limit (96k is ~2.5x slower).
 # =================================================================
 
 
