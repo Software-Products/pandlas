@@ -21,6 +21,7 @@ from pandlas.SqlRace import (
     add_markers_batch,
     set_session_details,
     add_synchro_data,
+    add_synchro_data_multi,
     add_text_channel,
     add_events,
 )
